@@ -1,16 +1,15 @@
 <template>
-  <div>
-    <HomeComponent/>
-  </div>
+  <HomeComponent />
 </template>
 
 <script>
-import HomeComponent from '@/components/Home.vue'
+  import HomeComponent from '../components/Home'
 
-export default {
-  name: 'HomeView',
-  components: {
-    HomeComponent
+  export default {
+    name: 'Home',
+
+    components: {
+      HomeComponent,
+    },
   }
-}
 </script>
