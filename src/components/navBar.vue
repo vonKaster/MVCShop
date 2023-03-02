@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-app-bar class="marginBottom elevation-0" app fixed color="white" dark>
+    <v-app-bar class="marginBottom elevation-0" app fixed color="white">
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }">
-          <img class="mt-2" :src="require('../assets/logodigicard.png')" />
+          <img class="mt-4" :src="require('../assets/logodigicard.png')" />
         </router-link>
       </v-toolbar-title>
       <v-spacer />
@@ -14,11 +14,11 @@
         left
       >
         <template v-slot:activator="{ on }">
-          <v-btn color="#e6105b" v-on="on" icon>
+          <v-btn color="black" v-on="on" icon>
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
-        <v-list color="#e6105b">
+        <v-list color="black">
           <v-list-item
             class="px-5 white--text font-weight-bold"
             :to="{ name: 'home' }"
@@ -51,19 +51,19 @@
         </v-list>
       </v-menu>
       <v-toolbar-items v-if="!showMenu && $vuetify.breakpoint.mdAndUp">
-        <v-btn color="#e6105b" text v-if="userExists" :to="{ name: 'home' }"
+        <v-btn color="black" v-if="userExists" :to="{ name: 'home' }"
           ><v-icon class="mr-1">mdi-home</v-icon>Inicio</v-btn
         >
-        <v-btn color="#e6105b" class="text-red" text v-if="!userExists" :to="{ name: 'login' }"
+        <v-btn color="black" v-if="!userExists" :to="{ name: 'login' }"
           ><v-icon class="mr-1">mdi-login</v-icon>Ingresar</v-btn
         >
-        <v-btn color="#e6105b" text v-if="!userExists" :to="{ name: 'register' }"
+        <v-btn color="black" v-if="!userExists" :to="{ name: 'register' }"
           ><v-icon class="mr-1">mdi-account-plus</v-icon>Registro</v-btn
         >
-        <v-btn color="#e6105b" text v-if="userExists" :to="{ path: 'profile' }"
+        <v-btn color="black" v-if="userExists" :to="{ path: 'profile' }"
           ><v-avatar color="#d9d9d9" size="24" class="mr-1"><img :src="user.photosrc"/></v-avatar>Perfil</v-btn
         >
-        <v-btn @click="signOut()" text v-if="userExists" color="red"
+        <v-btn @click="signOut()" v-if="userExists" color="red"
           ><v-icon class="mr-1">mdi-logout</v-icon>cerrar sesión</v-btn
         >
       </v-toolbar-items>
@@ -90,5 +90,25 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.v-btn--active {
+  color: #e6105b!important;
+}
+.v-btn {
+  background-color: #ffffff!important;
+  color: black;
+}
+
+.v-btn:hover {
+  color: #e6105b;
+}
+
+.v-btn--is-elevated {
+  box-shadow: none!important;
+}
+
+.v-btn:before {
+  background-color: #ffffff!important;
+}
+
 </style>

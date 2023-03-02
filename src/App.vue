@@ -42,4 +42,5 @@ export default {
 .v-input__icon ::before {
   color: #e6105b !important;
 }
+
 </style>
