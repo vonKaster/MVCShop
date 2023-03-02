@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout column align-center mt-4>
-      <v-card class="pa-8" width="500px">
+      <v-card class="pa-8" width="550px">
         <v-flex>
           <div class="avatar-container" @click="openFileInput">
             <v-avatar color="#d9d9d9" size="136">
@@ -60,7 +60,9 @@
                   label="Nueva Contraseña"
                   v-model="$v.passwd.$model"
                   :type="showPassword ? 'text' : 'password'"
-                  :rules="rulesPasswd"
+                  @input="$v.passwd.$touch()"
+                  @blur="$v.passwd.$touch()"
+                  :error-messages="passwdErrors"
                 ></v-text-field>
                 <v-btn
                   icon
@@ -82,7 +84,9 @@
                   label="Repita Contraseña"
                   v-model="$v.passwdConfirm.$model"
                   :type="showPasswordConfirm ? 'text' : 'password'"
-                  :rules="rulesPasswdConfirm"
+                  @input="$v.passwdConfirm.$touch()"
+                  @blur="$v.passwdConfirm.$touch()"
+                  :error-messages="passwdConfirmErrors"
                 ></v-text-field>
                 <v-btn
                   icon
@@ -130,9 +134,11 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import { storage, auth } from "../firebase";
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate";
 
 export default {
   name: "Profile",
+  mixins: [validationMixin],
 
   data() {
     return {
@@ -141,18 +147,8 @@ export default {
       passwdConfirm: "",
       originalValue: "",
       messages: [],
-      rulesPasswd: [
-        (v) => !!v || "La contraseña es requerida",
-        (v) =>
-          (v && v.length >= 6) ||
-          "La contraseña debe tener al menos 6 caracteres",
-      ],
-      rulesPasswdConfirm: [
-        (v) => !!v || "La confirmación de contraseña es requerida",
-        (v) => v === this.passwd || "Las contraseñas no coinciden",
-      ],
       showPassword: false,
-      showPasswordConfirm: false
+      showPasswordConfirm: false,
     };
   },
 
@@ -220,6 +216,23 @@ export default {
 
   computed: {
     ...mapState(["user", "error", "success"]),
+    passwdErrors() {
+      const errors = [];
+      if (!this.$v.passwd.$dirty) return errors;
+      !this.$v.passwd.minLength &&
+        errors.push("Debe contener al menos 6 carácteres");
+      !this.$v.passwd.required && errors.push("La contraseña es requerida");
+      return errors;
+    },
+    passwdConfirmErrors() {
+      const errors = [];
+      if (!this.$v.passwdConfirm.$dirty) return errors;
+      !this.$v.passwdConfirm.sameAs &&
+        errors.push("Las contraseñas no coinciden");
+      !this.$v.passwdConfirm.required &&
+        errors.push("La confirmación de contraseña es requerida");
+      return errors;
+    },
   },
 
   validations: {

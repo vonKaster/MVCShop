@@ -45,16 +45,9 @@ export default new Vuex.Store({
             uid: res.additionalUserInfo.uid,
             photosrc: res.photoURL
           };
-          db.collection(res.user.email).add({
-              name: "Tarea de ejemplo",
-            })
-            
-            .then((dic) => {
-              commit("setUser", createdUser);
-              router.push("/");
-              location.reload();
-            })
-            .catch((err) => console.log(err));
+          commit("setUser", createdUser);
+          router.push("/");
+          location.reload();
         })
         .catch((err) => {
           console.log(err);

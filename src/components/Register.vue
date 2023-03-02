@@ -148,6 +148,7 @@ export default {
     const spacer = document.getElementById("custom-spacer");
     if (style) {
       document.head.removeChild(style);
+    } if (spacer) {
       document.head.removeChild(spacer);
     }
     this.setError(null);
@@ -212,7 +213,7 @@ export default {
     email: { required, email },
     name: { required, minLength: minLength(3) },
     passwd: { required, minLength: minLength(6) },
-    passwdConfirm: { sameAs: sameAs("passwd") },
+    passwdConfirm: { required, sameAs: sameAs("passwd") },
   },
 };
 </script>
