@@ -1,5 +1,5 @@
 import axios from "axios";
-import products from "@/Models/products";
+import products from "@/models/products";
 
 class service {
     getAllProducts() {
@@ -9,9 +9,9 @@ class service {
              .get(`${url}`)
              .then(({ data }) => {
                return data.map((item) => {
-                 return products.fromJson(item);
-               });
-             });
+                });
+             return products.fromJson(item);
+                });
     }
     getAllCategories() {
       const url = 'https://fakestoreapi.com/products/categories'
