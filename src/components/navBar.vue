@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar class="marginBottom elevation-0" app fixed color="white">
+    <v-app-bar id="navbar" class="marginBottom" app fixed>
       <v-toolbar-title>
         <router-link :to="{ name: 'home' }">
           <img class="mt-4" :src="require('../assets/logodigicard.png')" />
@@ -54,7 +54,7 @@
         <v-btn color="black" v-if="userExists" :to="{ name: 'home' }"
           ><v-icon class="mr-1">mdi-home</v-icon>Inicio</v-btn
         >
-        <v-btn color="black" v-if="userExists" :to="{ path: 'profile' }"
+        <v-btn color="black" v-if="userExists" :to="{ path: 'cart' }"
           ><v-icon class="mr-1">mdi-cart</v-icon>Carrito</v-btn
         >
         <v-btn color="black" v-if="!userExists" :to="{ name: 'login' }"
@@ -68,11 +68,14 @@
             ><img :src="user.photosrc" /></v-avatar
           >Perfil</v-btn
         >
-        <v-btn @click="signOut()" v-if="userExists" color="red"
+        <v-btn
+          @click="signOut()"
+          v-if="userExists"
+          style="color: red !important"
           ><v-icon class="mr-1">mdi-logout</v-icon>cerrar sesión</v-btn
         >
         <v-btn color="black" @click="toggleDarkMode">
-          <v-icon>mdi-moon-waxing-crescent</v-icon>
+          <v-icon>{{ darkModeIcon }}</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
@@ -86,15 +89,25 @@ export default {
   data() {
     return {
       showMenu: false,
+      darkModeIcon: "mdi-weather-night",
     };
+  },
+  mounted() {
+    const isDarkMode = localStorage.getItem("isDarkMode") === "true";
+    this.$vuetify.theme.dark = isDarkMode;
+    this.darkModeIcon = isDarkMode
+      ? "mdi-white-balance-sunny"
+      : "mdi-weather-night";
   },
   methods: {
     ...mapActions(["signOut"]),
     toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode;
-      this.darkModeIcon = this.isDarkMode ? "mdi-white-balance-sunny" : "mdi-moon";
-      localStorage.setItem("isDarkMode", this.isDarkMode);
-    }
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      this.darkModeIcon = this.$vuetify.theme.dark
+        ? "mdi-white-balance-sunny"
+        : "mdi-weather-night";
+      localStorage.setItem("isDarkMode", this.$vuetify.theme.dark);
+    },
   },
   computed: {
     ...mapGetters(["userExists"]),
@@ -104,9 +117,23 @@ export default {
 </script>
 
 <style scoped>
-.v-btn--active {
-  color: #e6105b !important;
+
+#navbar {
+  background-color: #ffffff;
 }
+
+.theme--dark #navbar {
+  background-color: #272727 ;
+}
+.theme--dark .v-btn {
+  background-color: #272727 !important;
+  color: white;
+}
+
+.theme--dark .v-btn:before {
+  background-color: #272727 !important;
+}
+
 .v-btn {
   background-color: #ffffff !important;
   color: black;
@@ -114,6 +141,10 @@ export default {
 
 .v-btn:hover {
   color: #e6105b;
+}
+
+.v-btn--active {
+  color: #e6105b !important;
 }
 
 .v-btn--is-elevated {
