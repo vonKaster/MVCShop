@@ -1,5 +1,5 @@
 <template>
-  <v-footer color="#e6105b" padless>
+  <v-footer :dark="$vuetify.theme.dark" color="#e6105b" padless>
     <v-col class="text-center white--text" cols="12">
       {{ new Date().getFullYear() }} —
       <strong

@@ -54,6 +54,9 @@
         <v-btn color="black" v-if="userExists" :to="{ name: 'home' }"
           ><v-icon class="mr-1">mdi-home</v-icon>Inicio</v-btn
         >
+        <v-btn color="black" v-if="userExists" :to="{ path: 'profile' }"
+          ><v-icon class="mr-1">mdi-cart</v-icon>Carrito</v-btn
+        >
         <v-btn color="black" v-if="!userExists" :to="{ name: 'login' }"
           ><v-icon class="mr-1">mdi-login</v-icon>Ingresar</v-btn
         >
@@ -61,11 +64,16 @@
           ><v-icon class="mr-1">mdi-account-plus</v-icon>Registro</v-btn
         >
         <v-btn color="black" v-if="userExists" :to="{ path: 'profile' }"
-          ><v-avatar color="#d9d9d9" size="24" class="mr-1"><img :src="user.photosrc"/></v-avatar>Perfil</v-btn
+          ><v-avatar color="#d9d9d9" size="24" class="mr-1"
+            ><img :src="user.photosrc" /></v-avatar
+          >Perfil</v-btn
         >
         <v-btn @click="signOut()" v-if="userExists" color="red"
           ><v-icon class="mr-1">mdi-logout</v-icon>cerrar sesión</v-btn
         >
+        <v-btn color="black" @click="toggleDarkMode">
+          <v-icon>mdi-moon-waxing-crescent</v-icon>
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
   </div>
@@ -82,20 +90,25 @@ export default {
   },
   methods: {
     ...mapActions(["signOut"]),
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+      this.darkModeIcon = this.isDarkMode ? "mdi-white-balance-sunny" : "mdi-moon";
+      localStorage.setItem("isDarkMode", this.isDarkMode);
+    }
   },
   computed: {
     ...mapGetters(["userExists"]),
-    ...mapState(["user"])
+    ...mapState(["user"]),
   },
 };
 </script>
 
 <style scoped>
 .v-btn--active {
-  color: #e6105b!important;
+  color: #e6105b !important;
 }
 .v-btn {
-  background-color: #ffffff!important;
+  background-color: #ffffff !important;
   color: black;
 }
 
@@ -104,11 +117,10 @@ export default {
 }
 
 .v-btn--is-elevated {
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 
 .v-btn:before {
-  background-color: #ffffff!important;
+  background-color: #ffffff !important;
 }
-
 </style>
