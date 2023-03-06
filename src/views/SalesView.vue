@@ -1,15 +1,15 @@
 <template>
-    <CartComponent />
+    <SalesLogs />
   </template>
   
   <script>
-    import CartComponent from '../components/Cart'
+    import SalesLogs from '../components/SalesLogs'
   
     export default {
       name: 'Home',
   
       components: {
-        CartComponent,
+        SalesLogs,
       },
     }
   </script>

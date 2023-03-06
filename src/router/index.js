@@ -4,7 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import ProfileView from "../views/ProfileView.vue";
-import CartView from "../views/CartView.vue";
+import SalesView from "../views/SalesView.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter)
@@ -33,9 +33,9 @@ const routes = [
     meta: { background: true },
   },
   {
-    path: "/cart",
-    name: "cart",
-    component: CartView,
+    path: "/logs",
+    name: "sales",
+    component: SalesView,
     meta: { background: true },
   },
   {

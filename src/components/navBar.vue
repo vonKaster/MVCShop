@@ -54,8 +54,8 @@
         <v-btn color="black" v-if="userExists" :to="{ name: 'home' }"
           ><v-icon class="mr-1">mdi-home</v-icon>Inicio</v-btn
         >
-        <v-btn color="black" v-if="userExists" :to="{ path: 'cart' }"
-          ><v-icon class="mr-1">mdi-cart</v-icon>Carrito</v-btn
+        <v-btn color="black" v-if="userExists" :to="{ path: 'logs' }"
+          ><v-icon class="mr-1">mdi-text-box-search</v-icon>Logs Ventas</v-btn
         >
         <v-btn color="black" v-if="!userExists" :to="{ name: 'login' }"
           ><v-icon class="mr-1">mdi-login</v-icon>Ingresar</v-btn
