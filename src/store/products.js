@@ -10,6 +10,7 @@ export default new Vuex.Store({
     service: new service(),
     allProducts: [],
     allCategories: [],
+    allStock: []
   },
   getters: {},
   mutations: {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     setAllCategories(state, data) {
       state.allCategories = data;
+    },
+    setAllStock(state, data) {
+      state.allStock = data;
     },
   },
   actions: {
@@ -47,6 +51,19 @@ export default new Vuex.Store({
         }
       });
     },
+    async getStock(state) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.getAllStock();
+          console.log("store stock:", item);
+          state.commit("setAllStock", item);
+          resolve(true);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+    
   },
   modules: {},
 });

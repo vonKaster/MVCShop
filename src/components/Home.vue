@@ -23,6 +23,11 @@
               </v-tooltip>
             </h4>
           </v-card-title>
+          <div v-for="stock in getStock" :key="stock.id">
+            <p class="ms-4" v-if="stock.id === product.id">
+              Stock: {{ stock.stock }}
+            </p>
+          </div>
           <div class="text-center">
             <v-btn text class="ms-2 mx-auto"
               ><v-icon class="mr-1">mdi-pencil</v-icon>Editar</v-btn
@@ -42,12 +47,18 @@ import products from "../store/products";
 export default {
   name: "HomeComponent",
 
+  data() {
+    return {};
+  },
+
+  created() {
+    document.title = "MVCShop | Inicio";
+  },
+
   mounted() {
     products.dispatch("getCategories").then(() => {});
-
     products.dispatch("getProducts").then(() => {});
-
-    console.log("asd", products.state.allProducts);
+    products.dispatch("getStock").then(() => {});
   },
   computed: {
     getAllProducts() {
@@ -55,6 +66,9 @@ export default {
     },
     getCategories() {
       return products.state.allCategories;
+    },
+    getStock() {
+      return products.state.allStock;
     },
   },
   methods: {},
