@@ -63,6 +63,19 @@ export default new Vuex.Store({
         }
       });
     },
+
+    async getSales(state) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.getAllSales();
+          console.log("sales stock:", item);
+          state.commit("setAllStock", item);
+          resolve(true);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
     
   },
   modules: {},
