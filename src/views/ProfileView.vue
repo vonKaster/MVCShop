@@ -1,13 +1,13 @@
 <template>
-  <Profile></Profile>
+  <profile />
 </template>
 
 <script>
-import Profile from "../components/Profile";
+import profile from "../components/Profile";
 export default {
-  name: "ProfileView",
+  name: "profileView",
   components: {
-    Profile,
+    profile,
   },
 };
 </script>

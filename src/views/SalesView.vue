@@ -1,15 +1,15 @@
 <template>
-    <SalesLogs />
+    <salesLogs />
   </template>
   
   <script>
-    import SalesLogs from '../components/SalesLogs'
+    import salesLogs from '../components/salesLogs'
   
     export default {
-      name: 'Home',
+      name: 'saleLogsView',
   
       components: {
-        SalesLogs,
+        salesLogs,
       },
     }
   </script>

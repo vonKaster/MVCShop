@@ -1,15 +1,15 @@
 <template>
-  <HomeComponent />
+  <home />
 </template>
 
 <script>
-  import HomeComponent from '../components/Home'
+  import home from '../components/Home'
 
   export default {
-    name: 'Home',
+    name: 'homeView',
 
     components: {
-      HomeComponent,
+      home,
     },
   }
 </script>

@@ -1,15 +1,15 @@
 <template>
-  <SalesPage />
+  <salesPage />
 </template>
 
 <script>
-  import SalesPage from '../components/SalePage.vue'
+  import salesPage from '../components/salesPage.vue'
 
   export default {
-    name: 'Home',
+    name: 'salesPageView',
 
     components: {
-      SalesPage,
+      salesPage,
     },
   }
 </script>

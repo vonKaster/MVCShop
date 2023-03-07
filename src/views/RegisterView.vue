@@ -1,13 +1,13 @@
 <template>
-  <Register></Register>
+  <register />
 </template>
 
 <script>
-import Register from "../components/Register";
+import register from "../components/Register";
 export default {
-  name: "RegisterView",
+  name: "registerView",
   components: {
-    Register,
+    register,
   },
 };
 </script>
