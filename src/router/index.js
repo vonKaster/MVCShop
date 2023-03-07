@@ -5,6 +5,7 @@ import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import SalesView from "../views/SalesView.vue";
+import SalesPageView from "../views/SalesPageView.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter)
@@ -42,6 +43,12 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: ProfileView,
+    meta: { background: true },
+  },
+  {
+    path: "/sale/:hash",
+    name: "salesPage",
+    component: SalesPageView,
     meta: { background: true },
   },
 ]

@@ -49,13 +49,14 @@ class service {
   async getAllSales() {
     const compras = [];
     console.log("Obteniendo compras...");
-    await db.collectionGroup("compras")
+    await db
+      .collectionGroup("compras")
       .get()
       .then((querySnapshot) => {
         console.log("Compras obtenidas:", querySnapshot.docs.length);
         querySnapshot.forEach((doc) => {
           const compra = doc.data();
-          compra.id = doc.id;
+          compra.hash = doc.id; // Agregar el nombre del documento como hash
           const productos = Object.values(compra.productos || {});
           const totalProducts = productos.reduce(
             (total, producto) => total + producto.quantity,
@@ -69,6 +70,7 @@ class service {
           compra.totalPrice = totalPrice;
           compras.push(compra);
         });
+        compras.sort((a, b) => b.fecha - a.fecha); // Ordenar compras por fecha descendente
       })
       .catch((error) => {
         console.error("Error al obtener compras: ", error);
@@ -76,6 +78,44 @@ class service {
     return compras;
   }
   
+  async getVentaIndividual(hash) {
+    console.log("Buscando venta con hash:", hash);
+    const compras = [];
+    await db
+      .collectionGroup("compras")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          compras.push(doc);
+        });
+      })
+      .catch((error) => {
+        console.log("Error al obtener las compras: ", error);
+      });
+
+    const ventasEncontradas = compras.filter((compra) => {
+      return compra.id === hash;
+    });
+
+    if (ventasEncontradas.length === 1) {
+      const venta = ventasEncontradas[0].data();
+      const productos = Object.values(venta.productos || {});
+      const totalProducts = productos.reduce(
+        (total, producto) => total + producto.quantity,
+        0
+      );
+      venta.totalProducts = totalProducts;
+      const totalPrice = productos.reduce(
+        (total, producto) => total + producto.precio * producto.quantity,
+        0
+      );
+      venta.totalPrice = totalPrice;
+      return venta;
+    } else {
+      console.log("La venta no existe o hay más de una venta con ese hash");
+      return null;
+    }
+  }
   
   
 }

@@ -80,6 +80,18 @@ export default new Vuex.Store({
         }
       });
     },
+
+    async getSale(state, hash) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.getVentaIndividual(hash);
+          console.log("Venta Store",item);
+          resolve(item);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
     
   },
   modules: {},

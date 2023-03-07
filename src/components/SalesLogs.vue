@@ -18,7 +18,7 @@
           class="text-overline font-weight-bol"
           style="color: #ffffff"
           >{{ compra.totalProducts }} Productos - Precio total
-          {{ compra.totalPrice }}</v-card-subtitle
+          {{ compra.totalPrice }} - HASH VENTA: <router-link :to="`/sale/${compra.hash}`">{{ compra.hash }}</router-link></v-card-subtitle
         >
 
         <v-list>
@@ -49,11 +49,10 @@
 </template>
 
 <script>
-import { db } from "../firebase";
 import products from "../store/products";
 
 export default {
-  name: "CartComponent",
+  name: "SalesLogs",
 
   data() {
     return {
@@ -63,6 +62,7 @@ export default {
   },
 
   created() {
+    document.title = "MVCShop | Ventas";
     products.dispatch("getSales").then(() => {
       this.compras = products.state.allStock;
       this.isLoaded = true;
