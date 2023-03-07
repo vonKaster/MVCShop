@@ -34,7 +34,7 @@ const routes = [
     meta: { background: true },
   },
   {
-    path: "/logs",
+    path: "/sales",
     name: "sales",
     component: SalesView,
     meta: { background: true },
