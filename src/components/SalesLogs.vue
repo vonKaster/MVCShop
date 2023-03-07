@@ -5,6 +5,9 @@
       <h2>Cargando...</h2>
     </div>
     <div v-if="isLoaded">
+      <div class="mb-4">
+        <v-text-field label="Buscar por fecha o hash" v-model="search" @input="searchSales" />
+      </div>
       <v-card
         style="background-color: #e6105b; color: #ffffff"
         class="mb-4"
@@ -61,6 +64,7 @@ export default {
       isLoaded: false,
       page: 1,
       itemsPerPage: 10,
+      search: '',
     };
   },
 
@@ -71,7 +75,10 @@ export default {
     paginatedCompras() {
       const start = (this.page - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      return this.compras.slice(start, end);
+      return this.compras.filter((compra) => {
+        return compra.fecha.toDate().toLocaleString().includes(this.search) ||
+          compra.hash.includes(this.search);
+      }).slice(start, end);
     },
   },
 
@@ -88,6 +95,15 @@ export default {
   methods: {
     changePage(page) {
       this.page = page;
+    },
+    searchSales() {
+      this.page = 1;
+    }
+  },
+
+  watch: {
+    search() {
+      this.page = 1;
     },
   },
 };
