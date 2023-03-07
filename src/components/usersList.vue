@@ -1,74 +1,49 @@
 <template>
-    <div>
-      <h1 class="text-center mb-8">Usuarios con Compras</h1>
-      <div class="text-center" v-if="!isLoaded">
-        <h2>Cargando...</h2>
-      </div>
-      <div v-if="isLoaded">
-        <v-card
-          style="background-color: #e6105b; color: #ffffff"
-          class="mb-4"
-          v-for="user in usuarios"
-          :key="user.email"
-        >
-          <v-card-title>{{ user.name }}</v-card-title>
-          <v-card-subtitle
-            class="text-overline font-weight-bol"
-            style="color: #ffffff"
-            >{{ user.email }}</v-card-subtitle
-          >
-        </v-card>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import firebase from "firebase/app";
-  import "firebase/firestore";
-  import { mapGetters } from "vuex";
-  
-  export default {
-    name: "UsersWithSales",
-  
-    data() {
-      return {
-        compras: [],
-        usuarios: [],
-        isLoaded: false,
-      };
-    },
-  
-    computed: {
-      ...mapGetters("auth", ["user"]),
-    },
-  
-    created() {
-      document.title = "MVCShop | Usuarios con Compras";
-  
-      const db = firebase.firestore();
-      db.collection("users")
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            const user = doc.data();
-            const userRef = db.collection(user.email);
-            userRef
-              .get()
-              .then((querySnapshot) => {
-                if (!querySnapshot.empty) {
-                  this.usuarios.push(user);
-                }
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          });
-          this.isLoaded = true;
-        })
-        .catch((error) => {
-          console.log(error);
+  <div>
+    <h1>List of Users Who Made a Purchase</h1>
+    <ul>
+      <li v-for="(user, index) in users" :key="index">{{ user }}</li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import { db } from "../firebase";
+import products from "../store/products";
+
+export default {
+  data() {
+    return {
+      users: [],
+    };
+  },
+  methods: {
+    async getUsers() {
+      try {
+        console.log("Obteniendo compras...");
+        const compras = await products.dispatch("getSales");
+        console.log("Compras obtenidas:", compras.length);
+        const users = new Set();
+        const comprasArray = Object.values(compras);
+        console.log("Compras en array:", comprasArray.length);
+        comprasArray.forEach((compra) => {
+          const uid = compra.uid;
+          console.log("UID de compra:", uid);
+          if (uid) {
+            users.add(uid);
+          }
         });
+        this.users = Array.from(users);
+        console.log("Usuarios obtenidos:", this.users);
+      } catch (error) {
+        console.error(error);
+        throw new Error("Could not fetch users");
+      }
     },
-  };
-  </script>
-  
+  },
+  created() {
+    console.log("Component created");
+    this.getUsers();
+  },
+};
+</script>

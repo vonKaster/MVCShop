@@ -1,8 +1,14 @@
 <template>
   <div>
     <v-container>
-      <h1 class="text-center">Productos</h1>
-      <div class="d-flex flex-wrap">
+      <div v-if="!isLoaded" class="text-center">
+        <div class="text-center mt-6 text-overline">
+        <h2>Cargando Contenido</h2>
+        <pulse-loader :color="'#e6105b'"></pulse-loader>
+      </div>
+      </div>
+      <h1 class="text-center" v-if="isLoaded">Productos</h1>
+      <div class="d-flex flex-wrap" v-if="isLoaded">
         <v-card
           class="mt-3 mb-3 mx-auto"
           max-width="300"
@@ -44,11 +50,15 @@
 
 <script>
 import products from "../store/products";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 export default {
   name: "HomeComponent",
+  components: {PulseLoader: PulseLoader},
 
   data() {
-    return {};
+    return {
+      isLoaded: false,
+    };
   },
 
   created() {
@@ -56,10 +66,15 @@ export default {
   },
 
   mounted() {
-    products.dispatch("getCategories").then(() => {});
-    products.dispatch("getProducts").then(() => {});
-    products.dispatch("getStock").then(() => {});
+    Promise.all([
+      products.dispatch("getCategories"),
+      products.dispatch("getProducts"),
+      products.dispatch("getStock"),
+    ]).then(() => {
+      this.isLoaded = true;
+    });
   },
+  
   computed: {
     getAllProducts() {
       return products.state.allProducts;
@@ -71,13 +86,18 @@ export default {
       return products.state.allStock;
     },
   },
+  
   methods: {},
 };
 </script>
 
-<style>
+<style scoped>
 .productImage {
   width: 300px;
   height: 300px;
+}
+
+.theme--dark .v-card {
+  background-color: #272727 !important;
 }
 </style>

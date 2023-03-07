@@ -1,6 +1,6 @@
 <template>
-  <v-footer :dark="$vuetify.theme.dark" color="#e6105b" padless>
-    <v-col class="text-center white--text" cols="12">
+  <v-footer :dark="$vuetify.theme.dark" color="#ffffff" class="elevation-3" padless>
+    <v-col class="text-center" cols="12">
       {{ new Date().getFullYear() }} —
       <strong
         ><a
@@ -23,7 +23,12 @@ export default {
 
 <style>
 .footerLink {
-  color: black !important;
+  color: #e6105b !important;
   text-decoration: none;
+}
+
+.theme--dark .v-footer {
+  background-color: #272727 !important;
+  color: white!important;
 }
 </style>
