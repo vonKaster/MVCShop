@@ -8,7 +8,7 @@
       <v-card
         style="background-color: #e6105b; color: #ffffff"
         class="mb-4"
-        v-for="compra in compras"
+        v-for="compra in paginatedCompras"
         :key="compra.id"
       >
         <v-card-title>{{
@@ -44,6 +44,7 @@
           </v-list-item-group>
         </v-list>
       </v-card>
+      <v-pagination v-model="page" :length="numPages" @input="changePage" />
     </div>
   </div>
 </template>
@@ -58,15 +59,36 @@ export default {
     return {
       compras: [],
       isLoaded: false,
+      page: 1,
+      itemsPerPage: 10,
     };
+  },
+
+  computed: {
+    numPages() {
+      return Math.ceil(this.compras.length / this.itemsPerPage);
+    },
+    paginatedCompras() {
+      const start = (this.page - 1) * this.itemsPerPage;
+      const end = start + this.itemsPerPage;
+      return this.compras.slice(start, end);
+    },
   },
 
   created() {
     document.title = "MVCShop | Ventas";
     products.dispatch("getSales").then(() => {
-      this.compras = products.state.allStock;
+      this.compras = products.state.allStock.sort(
+        (a, b) => b.fecha - a.fecha
+      );
       this.isLoaded = true;
     });
+  },
+
+  methods: {
+    changePage(page) {
+      this.page = page;
+    },
   },
 };
 </script>
