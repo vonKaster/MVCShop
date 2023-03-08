@@ -29,7 +29,7 @@
           style="color: #e6105b"
         >
           {{ compra.totalProducts }} Productos - Precio total
-          {{ compra.totalPrice }}
+          {{ compra.totalPrice.toFixed(2) }}
           <router-link style="text-decoration: none; color:#e6105b" :to="`/sale/${compra.hash}`">{{
             compra.hash
           }}</router-link>
@@ -121,6 +121,7 @@ export default {
   methods: {
     changePage(page) {
       this.page = page;
+      window.scrollTo(0, 0);
     },
     searchSales() {
       this.page = 1;
@@ -140,6 +141,10 @@ export default {
 <style scoped>
 .theme--dark .v-card {
   background-color: #272727 !important;
+  color: white!important;
+}
+.theme--dark .v-list {
+  background-color: #2e2e2e !important;
   color: white!important;
 }
 </style>

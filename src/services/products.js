@@ -77,7 +77,7 @@ class service {
       });
     return compras;
   }
-  
+
   async getVentaIndividual(hash) {
     console.log("Buscando venta con hash:", hash);
     const compras = [];
@@ -116,8 +116,37 @@ class service {
       return null;
     }
   }
-  
-  
+
+  async toggleStatusProduct(productId) {
+    const stocks = db.collection("stock");
+    stocks
+      .where("id", "==", productId)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.exists) {
+            const enabled = doc.data().enabled;
+            const docRef = stocks.doc(doc.id);
+            docRef
+              .update({ enabled: !enabled })
+              .then(() => {
+                console.log("Estado del producto alterado exitosamente.");
+              })
+              .catch((error) => {
+                console.error(
+                  "Error al actualizar el estado del producto:",
+                  error
+                );
+              });
+          } else {
+            console.log(`No se encontró un producto con la id: ${productId}`);
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Error al obtener los datos: ", error);
+      });
+  }
 }
 
 export default service;

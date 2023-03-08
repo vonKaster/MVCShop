@@ -92,6 +92,18 @@ export default new Vuex.Store({
         }
       });
     },
+
+    async toggleStatusProduct(state, productId) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.toggleStatusProduct(productId);
+          resolve(item);
+          this.getProducts();
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
     
   },
   modules: {},

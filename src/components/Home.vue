@@ -3,12 +3,89 @@
     <v-container>
       <div v-if="!isLoaded" class="text-center">
         <div class="text-center mt-6 text-overline">
-        <h2>Cargando Contenido</h2>
-        <pulse-loader :color="'#e6105b'"></pulse-loader>
-      </div>
+          <h2>Cargando Contenido</h2>
+          <pulse-loader :color="'#e6105b'"></pulse-loader>
+        </div>
       </div>
       <h1 class="text-center" v-if="isLoaded">Productos</h1>
       <div class="d-flex flex-wrap" v-if="isLoaded">
+        <v-dialog width="500px" v-model="disableDialog" persistent>
+          <v-card class="text-center">
+            <v-card-title class="headline"
+              >Deshabilitar Producto [{{ productSelected }}]</v-card-title
+            >
+            <h3>
+              <p>¿Estás seguro que deseas inhabilitar este producto?</p>
+            </h3>
+            <v-card-actions>
+              <v-btn
+                text
+                @click="
+                  disableDialog = false;
+                  productSelected = null;
+                "
+                >Cancelar</v-btn
+              >
+              <v-btn
+                color="red"
+                text
+                @click="
+                  toggleStatusProduct(productSelected);
+                  disableDialog = false;
+                "
+                >Confirmar</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog width="500px" v-model="changeStockDialog" persistent>
+          <v-card class="text-center">
+            <v-form @submit.prevent="
+            signIn({
+              stock: $v.newStock.$model
+            })
+          ">
+            <v-card-title class="headline">
+              Cambiar Stock [{{ productSelected }}]
+            </v-card-title>
+            <h3>
+              <p>Cambiar Stock</p>
+              <v-text-field
+                type="number"
+                style="width: 400px"
+                class="mx-auto"
+                dense
+                solo
+                v-model="$v.newStock.$model"
+                :error-messages="stockErrors"
+              ></v-text-field>
+            </h3>
+            <v-card-actions>
+              <v-btn
+                text
+                @click="
+                  changeStockDialog = false;
+                  productSelected = null;
+                  newStock = null;
+                  $v.$reset()
+                "
+                >Cancelar</v-btn
+              >
+              <v-btn
+                :disabled="$v.$invalid"
+                color="green"
+                text
+                @click="
+                  toggleStatusProduct(productSelected);
+                  changeStockDialog = false;
+                "
+                >Confirmar</v-btn
+              >
+            </v-card-actions>
+          </v-form>
+          </v-card>
+        </v-dialog>
         <v-card
           class="mt-3 mb-3 mx-auto"
           max-width="300"
@@ -34,13 +111,31 @@
               Stock: {{ stock.stock }}
             </p>
           </div>
-          <div class="text-center">
-            <v-btn text class="ms-2 mx-auto"
+          <div class="text-center d-flex pa-1">
+            <v-btn
+              :disabled="isProductDisabled(product)"
+              color="#e6105b"
+              text
+              class="mx-auto flex-grow-1"
+              @click="openChangeStockDialog(product.id)"
               ><v-icon class="mr-1">mdi-pencil</v-icon>Editar</v-btn
             >
-            <v-btn text class="ms-2 mx-auto"
-              ><v-icon class="mr-1">mdi-alert</v-icon>Inhabilitar</v-btn
+            <v-btn
+              v-if="isLoaded"
+              :color="isProductDisabled(product) ? 'success' : 'red'"
+              text
+              class="mx-auto flex-grow-1"
+              @click="
+                isProductDisabled(product)
+                  ? toggleStatusProduct(product.id)
+                  : openDisableDialog(product.id)
+              "
             >
+              <v-icon class="mr-1">{{
+                isProductDisabled(product) ? "mdi-check" : "mdi-alert"
+              }}</v-icon>
+              {{ isProductDisabled(product) ? "Habilitar" : "Deshabilitar" }}
+            </v-btn>
           </div>
         </v-card>
       </div>
@@ -51,13 +146,21 @@
 <script>
 import products from "../store/products";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import { required } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate";
+
 export default {
   name: "HomeComponent",
-  components: {PulseLoader: PulseLoader},
+  components: { PulseLoader: PulseLoader },
+  mixins: [validationMixin],
 
   data() {
     return {
       isLoaded: false,
+      disableDialog: false,
+      changeStockDialog: false,
+      newStock: null,
+      productSelected: null,
     };
   },
 
@@ -65,16 +168,19 @@ export default {
     document.title = "MVCShop | Inicio";
   },
 
-  mounted() {
-    Promise.all([
-      products.dispatch("getCategories"),
-      products.dispatch("getProducts"),
-      products.dispatch("getStock"),
-    ]).then(() => {
+  async mounted() {
+    try {
+      await Promise.all([
+        products.dispatch("getCategories"),
+        products.dispatch("getProducts"),
+        products.dispatch("getStock"),
+      ]);
       this.isLoaded = true;
-    });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  
+
   computed: {
     getAllProducts() {
       return products.state.allProducts;
@@ -83,11 +189,42 @@ export default {
       return products.state.allCategories;
     },
     getStock() {
+      console.log("getStock called");
       return products.state.allStock;
     },
+    stockErrors() {
+      const errors = [];
+      if (!this.$v.newStock.$dirty) return errors;
+      !this.$v.newStock.required && errors.push("el campo es requerido");
+      return errors;
+    },
   },
-  
-  methods: {},
+
+  methods: {
+    openDisableDialog(productId) {
+      this.disableDialog = true;
+      this.productSelected = productId;
+    },
+    openChangeStockDialog(productId) {
+      this.changeStockDialog = true;
+      this.productSelected = productId;
+    },
+    isProductDisabled(product) {
+      return (
+        this.getStock.find((stock) => stock.id === product.id)?.enabled ===
+        false
+      );
+    },
+    async toggleStatusProduct(productId) {
+      await products.dispatch("toggleStatusProduct", productId);
+      this.productSelected = null;
+      await products.dispatch("getStock");
+    },
+
+  },
+  validations: {
+    newStock: { required },
+  },
 };
 </script>
 
