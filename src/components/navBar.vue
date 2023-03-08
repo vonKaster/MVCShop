@@ -43,6 +43,15 @@
             >Perfil</v-list-item
           >
           <v-list-item
+            class="px-5 white--text font-weight-bold"
+            @click="toggleDarkMode"
+            >{{
+              darkModeIcon === "mdi-white-balance-sunny"
+                ? "Modo Claro"
+                : "Modo Oscuro"
+            }}</v-list-item
+          >
+          <v-list-item
             v-if="userExists"
             class="px-5 white--text font-weight-bold"
             @click="signOut()"
@@ -120,13 +129,12 @@ export default {
 </script>
 
 <style scoped>
-
 #navbar {
   background-color: #ffffff;
 }
 
 .theme--dark #navbar {
-  background-color: #272727 ;
+  background-color: #272727;
 }
 .theme--dark .v-btn {
   background-color: #272727 !important;

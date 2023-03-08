@@ -128,6 +128,21 @@ export default {
         background-image: url(https://svgshare.com/i/qnp.svg)!important;
         background-position: bottom center;
       }
+    .v-footer {
+      background-color: #e6105b!important;
+      color: white!important;
+    }
+    .v-footer .footerLink {
+      color: white!important;
+      text-decoration: none;
+      }
+      .v-application .elevation-3 {
+      box-shadow: none!important;
+    }
+    .theme--dark .custom-footer{
+      background-color: #e6105b!important;
+      color: white!important;
+    }
       @media (max-width: 600px) {
         main {
           padding-top: 90px!important;

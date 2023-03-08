@@ -129,16 +129,30 @@ export default {
     const style = document.createElement("style");
     style.setAttribute("id", "custom-main-style");
     style.textContent = `
-      main {
+    main {
         background-image: url(https://svgur.com/i/qnR.svg);
         background-position: bottom center;
       }
+    .v-footer {
+      background-color: #e6105b!important;
+      color: white!important;
+    }
+    .v-footer .footerLink {
+      color: white!important;
+      text-decoration: none;
+      }
+      .v-application .elevation-3 {
+      box-shadow: none!important;
+    }
+    .theme--dark .custom-footer{
+      background-color: #e6105b!important;
+      color: white!important;
+    }
       @media (max-width: 600px) {
         main {
           padding-top: 168px!important;
         }
       }
-      
     `;
     document.head.appendChild(style);
   },
