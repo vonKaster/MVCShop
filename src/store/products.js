@@ -98,12 +98,28 @@ export default new Vuex.Store({
         try {
           let item = await state.state.service.toggleStatusProduct(productId);
           resolve(item);
-          this.getProducts();
+          this.getStock();
         } catch (error) {
           reject(error);
         }
       });
     },
+
+    async updateStock(state, { productId, newStock }) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          console.log("stock store:", newStock);
+          let item = await state.state.service.updateStock(productId, newStock);
+          resolve(item);
+          await this.dispatch("getStock");
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+    
+
+    
     
   },
   modules: {},

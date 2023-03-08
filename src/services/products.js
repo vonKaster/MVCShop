@@ -147,6 +147,24 @@ class service {
         console.error("Error al obtener los datos: ", error);
       });
   }
+  async updateStock(productId, newStock) {
+    const stocks = db.collection("stock");
+    const querySnapshot = await stocks.where("id", "==", productId).get();
+    console.log("query", querySnapshot);
+    querySnapshot.forEach(async (doc) => {
+      if (doc.exists) {
+        console.log("el doc existe");
+        const docRef = stocks.doc(doc.id);
+        console.log("docref", docRef);
+        console.log("numero con el que se actualizaria:", newStock);
+        await docRef.update({ stock: newStock });
+        console.log("Stock actualizado exitosamente.");
+      } else {
+        console.log(`No se encontró un producto con la id: ${productId}`);
+      }
+    });
+  }
+  
 }
 
 export default service;

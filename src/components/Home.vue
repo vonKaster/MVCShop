@@ -41,49 +41,40 @@
 
         <v-dialog width="500px" v-model="changeStockDialog" persistent>
           <v-card class="text-center">
-            <v-form @submit.prevent="
-            signIn({
-              stock: $v.newStock.$model
-            })
-          ">
-            <v-card-title class="headline">
-              Cambiar Stock [{{ productSelected }}]
-            </v-card-title>
-            <h3>
-              <p>Cambiar Stock</p>
-              <v-text-field
-                type="number"
-                style="width: 400px"
-                class="mx-auto"
-                dense
-                solo
-                v-model="$v.newStock.$model"
-                :error-messages="stockErrors"
-              ></v-text-field>
-            </h3>
-            <v-card-actions>
-              <v-btn
-                text
-                @click="
-                  changeStockDialog = false;
-                  productSelected = null;
-                  newStock = null;
-                  $v.$reset()
-                "
-                >Cancelar</v-btn
-              >
-              <v-btn
-                :disabled="$v.$invalid"
-                color="green"
-                text
-                @click="
-                  toggleStatusProduct(productSelected);
-                  changeStockDialog = false;
-                "
-                >Confirmar</v-btn
-              >
-            </v-card-actions>
-          </v-form>
+            <v-form
+              @submit.prevent="updateStock(productSelected, $v.newStock.$model); $v.$reset();"
+            >
+              <v-card-title class="headline">
+                Cambiar Stock [{{ productSelected }}]
+              </v-card-title>
+              <h3>
+                <p>Cambiar Stock</p>
+                <v-text-field
+                  type="number"
+                  style="width: 400px"
+                  class="mx-auto"
+                  dense
+                  solo
+                  v-model="$v.newStock.$model"
+                  :error-messages="stockErrors"
+                ></v-text-field>
+              </h3>
+              <v-card-actions>
+                <v-btn
+                  text
+                  @click="
+                    changeStockDialog = false;
+                    productSelected = null;
+                    newStock = null;
+                    $v.$reset();
+                  "
+                  >Cancelar</v-btn
+                >
+                <v-btn type="submit" :disabled="$v.$invalid" color="green" text
+                  >Confirmar</v-btn
+                >
+              </v-card-actions>
+            </v-form>
           </v-card>
         </v-dialog>
         <v-card
@@ -220,7 +211,13 @@ export default {
       this.productSelected = null;
       await products.dispatch("getStock");
     },
-
+    async updateStock(productId, newStock) {
+      await products.dispatch("updateStock", { productId, newStock });
+      this.changeStockDialog = false;
+      this.newStock = null;
+      this.productSelected = null;
+      await products.dispatch("getStock");
+    },
   },
   validations: {
     newStock: { required },
