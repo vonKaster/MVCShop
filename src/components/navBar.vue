@@ -74,6 +74,9 @@
         <v-btn color="black" v-if="userExists" :to="{ name: 'providers' }"
           ><v-icon class="mr-1">mdi-truck-check</v-icon>Proovedores</v-btn
         >
+        <v-btn color="black" v-if="userExists" :to="{ name: 'test' }"
+          ><v-icon class="mr-1">mdi-api</v-icon>Test</v-btn
+        >
         <v-btn color="black" v-if="!userExists" :to="{ name: 'login' }"
           ><v-icon class="mr-1">mdi-login</v-icon>Ingresar</v-btn
         >

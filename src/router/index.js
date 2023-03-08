@@ -7,6 +7,7 @@ import ProfileView from "../views/ProfileView.vue";
 import SalesView from "../views/SalesView.vue";
 import SalesPageView from "../views/SalesPageView.vue";
 import ProvidersView from "../views/ProvidersView.vue";
+import TestProductosView from "../views/TestProductosView.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter)
@@ -56,6 +57,12 @@ const routes = [
     path: "/providers",
     name: "providers",
     component: ProvidersView,
+    meta: { background: true },
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: TestProductosView,
     meta: { background: true },
   },
 ]

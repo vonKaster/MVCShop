@@ -7,7 +7,7 @@
           <pulse-loader :color="'#e6105b'"></pulse-loader>
         </div>
       </div>
-      <h1 class="titulo text-center mb-4" v-if="isLoaded">Productos</h1>
+      <h1 class="titulo text-center mb-4 text-overline" v-if="isLoaded">Productos</h1>
       <div class="d-flex flex-wrap" v-if="isLoaded">
         <v-dialog width="500px" v-model="disableDialog" persistent>
           <v-card class="text-center">

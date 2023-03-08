@@ -164,7 +164,12 @@ class service {
       }
     });
   }
-  
+
+  async deleteProduct(productId) {
+    console.log("ProductID SERVICIO:", productId);
+    const url = "https://fakestoreapi.com/products/";
+    return await axios.delete(`${url}${productId}`);
+  }
 }
 
 export default service;

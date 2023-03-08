@@ -11,7 +11,7 @@ export default new Vuex.Store({
     allProducts: [],
     allCategories: [],
     allStock: [],
-    allSales: []
+    allSales: [],
   },
   getters: {},
   mutations: {
@@ -85,7 +85,7 @@ export default new Vuex.Store({
       return new Promise(async (resolve, reject) => {
         try {
           let item = await state.state.service.getVentaIndividual(hash);
-          console.log("Venta Store",item);
+          console.log("Venta Store", item);
           resolve(item);
         } catch (error) {
           reject(error);
@@ -117,10 +117,17 @@ export default new Vuex.Store({
         }
       });
     },
-    
 
-    
-    
+    async deleteProduct(state, productId) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.deleteProduct(productId);
+          resolve(item);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
   },
   modules: {},
 });
