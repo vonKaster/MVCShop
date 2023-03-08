@@ -113,7 +113,7 @@
           </div>
           <div class="text-center d-flex pa-1">
             <v-btn
-              :disabled="isProductDisabled(product)"
+              :disabled="!isProductDisabled(product)"
               color="#e6105b"
               text
               class="mx-auto flex-grow-1"
