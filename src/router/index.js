@@ -6,8 +6,7 @@ import LoginView from "../views/LoginView.vue";
 import ProfileView from "../views/ProfileView.vue";
 import SalesView from "../views/SalesView.vue";
 import SalesPageView from "../views/SalesPageView.vue";
-import UsersListView from "../views/UsersListView.vue";
-import UserPageView from "../views/UserPageView.vue";
+import ProvidersView from "../views/ProvidersView.vue";
 import { auth } from "../firebase";
 
 Vue.use(VueRouter)
@@ -54,15 +53,9 @@ const routes = [
     meta: { background: true },
   },
   {
-    path: "/users",
-    name: "users",
-    component: UsersListView,
-    meta: { background: true },
-  },
-  {
-    path: "/user/:uid",
-    name: "userPage",
-    component: UserPageView,
+    path: "/providers",
+    name: "providers",
+    component: ProvidersView,
     meta: { background: true },
   },
 ]

@@ -33,11 +33,13 @@
               class="d-flex justify-space-between text-overline font-weight-bol"
               style="color: #e6105b"
             >
-              - {{ compra.totalProducts }} Productos
+              {{ compra.totalProducts }} Productos - Precio total
+              {{ compra.totalPrice.toFixed(2) }}
               <router-link
-                style="text-decoration: none; color: #e6105b"
+                style="text-decoration: none; color: #e6105b; height: 30px; padding: 1px 5px 5px 5px; border-radius: 5px;"
+                class="elevation-1"
                 :to="`/sale/${compra.hash}`"
-                >{{ compra.hash }}</router-link
+                >{{ compra.hash }} <v-icon color="#e6105b">mdi-arrow-top-right-bold-outline</v-icon></router-link
               >
               <v-btn class="mb-4 mr-4" @click="toggleExpand(index)" small>
                 <v-icon>
@@ -70,9 +72,11 @@
                       <v-list-item-title>{{
                         producto.title
                       }}</v-list-item-title>
-                      <v-list-item-title>{{
+                    <div>
+                      <v-list-item-title class="mt-5 mr-4">{{
                         producto.quantity
                       }}</v-list-item-title>
+                    </div>
                     </div>
                   </v-list-item-content>
                 </v-list-item>
@@ -174,7 +178,8 @@ export default {
     display: block!important;
   }
   .v-btn {
-    margin-left: 20%;
+    margin-left: 16%;
+    margin-top: 3%;
   }
 }
 </style>
