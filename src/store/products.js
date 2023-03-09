@@ -12,6 +12,8 @@ export default new Vuex.Store({
     allCategories: [],
     allStock: [],
     allSales: [],
+    deleteItem: {},
+    new: []
   },
   getters: {},
   mutations: {
@@ -26,6 +28,9 @@ export default new Vuex.Store({
     },
     setAllSales(state, data) {
       state.allStock = data;
+    },
+    setDeleteItem(state, data) {
+      state.deleteItem = data
     },
   },
   actions: {
@@ -118,10 +123,70 @@ export default new Vuex.Store({
       });
     },
 
+    async addProduct(state, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await state.state.service.addProduct(data);
+          let options = state.state.allProducts
+          let newItem = products.fromJson({
+            title: data.title,
+            price: data.price,
+            category: data.category,
+            description: data.description,
+            image: data.image
+          })
+          options.unshift(newItem);
+          state.commit('setAllProducts', options)
+          resolve(true)
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+
+
+    async editProduct(state, data) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          await state.state.service.editProduct(data);
+          let item = state.state.edit;
+          let options = state.state.allProducts;
+          options = options.map((option) => {
+            if (option.id != data.id) {
+              return option;
+            }
+            item = products.fromJson({
+              id: data.id,
+              title: data.title,
+              price: data.price,
+              category: data.category,
+              description: data.description,
+              image: data.image,
+            });
+            return item;
+          });
+          state.commit("setAllProducts", options);
+          resolve(true);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+    
+
     async deleteProduct(state, productId) {
       return new Promise(async (resolve, reject) => {
         try {
           let item = await state.state.service.deleteProduct(productId);
+          let options = state.state.allProducts;
+
+          options = options.filter((option) => {
+            console.log("dentro de options");
+            return option.id != productId;
+          });
+          console.log("product id", productId);
+          console.log("options filtradas", options);
+          state.commit('setAllProducts', options);
           resolve(item);
         } catch (error) {
           reject(error);

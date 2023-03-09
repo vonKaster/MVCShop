@@ -67,7 +67,7 @@
                   </v-card-title>
                 </div>
                 <h4 class="ms-4 mb-2">
-                  Monto Total: ${{ venta.totalPrice }}
+                  Monto Total: ${{ venta.totalPrice.toFixed(2) }}
                 </h4>
                 <h4 class="ms-4 mb-2 font-weight-medium">
                   Total de productos: {{ venta.totalProducts }}

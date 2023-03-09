@@ -7,7 +7,9 @@
           <pulse-loader :color="'#e6105b'"></pulse-loader>
         </div>
       </div>
-      <h1 class="titulo text-center mb-4 text-overline" v-if="isLoaded">Productos</h1>
+      <h1 class="titulo text-center mb-4 text-overline" v-if="isLoaded">
+        Productos
+      </h1>
       <div class="d-flex flex-wrap" v-if="isLoaded">
         <v-dialog width="500px" v-model="disableDialog" persistent>
           <v-card class="text-center">
@@ -42,7 +44,10 @@
         <v-dialog width="500px" v-model="changeStockDialog" persistent>
           <v-card class="text-center">
             <v-form
-              @submit.prevent="updateStock(productSelected, $v.newStock.$model); $v.$reset();"
+              @submit.prevent="
+                updateStock(productSelected, $v.newStock.$model);
+                $v.$reset();
+              "
             >
               <v-card-title class="headline">
                 Cambiar Stock [{{ productSelected }}]
@@ -57,6 +62,8 @@
                   solo
                   v-model="$v.newStock.$model"
                   :error-messages="stockErrors"
+                  append-icon="mdi-archive-cog-outline"
+                  color="white"
                 ></v-text-field>
               </h3>
               <v-card-actions>
@@ -98,11 +105,28 @@
             </h4>
           </v-card-title>
           <div v-for="stock in getStock" :key="stock.id">
-            <p class="ms-4 mb-0" v-if="stock.id === product.id">Producto #{{ product.id }}</p>
-            <p class="ms-4" v-if="stock.id === product.id">
+            <p class="ms-4 mb-0" v-if="stock.id === product.id">
+              Producto #{{ product.id }}
+            </p>
+            <p class="ms-4 mb-0" v-if="stock.id === product.id">
               Stock: {{ stock.stock }}
             </p>
+            <p class="ms-4" v-if="stock.id === product.id">
+              Categoría:
+              {{
+                product.categoria === "men's clothing"
+                  ? "Ropa de Hombre"
+                  : product.categoria === "jewelery"
+                  ? "Joyería"
+                  : product.categoria === "electronics"
+                  ? "Electrónica"
+                  : product.categoria === "women's clothing"
+                  ? "Ropa de Mujer"
+                  : product.categoria
+              }}
+            </p>
           </div>
+
           <div class="text-center d-flex pa-1">
             <v-btn
               :disabled="!isProductDisabled(product)"
@@ -237,6 +261,6 @@ export default {
 }
 
 .titulo {
-  font-size: 24px!important;
+  font-size: 24px !important;
 }
 </style>
