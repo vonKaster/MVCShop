@@ -38,12 +38,13 @@ export default new Vuex.Store({
           console.log(res);
           auth.currentUser.updateProfile({
             displayName: credentials.name,
-            photoURL: 'https://raw.githubusercontent.com/vonKaster/CRUDFirebase/204e35cdc01abf6dd34869facb8badcde772b7a7/src/assets/user.jpg'
-          })
+            photoURL:
+              "https://raw.githubusercontent.com/vonKaster/CRUDFirebase/204e35cdc01abf6dd34869facb8badcde772b7a7/src/assets/user.jpg",
+          });
           const createdUser = {
             email: res.user.email,
             uid: res.additionalUserInfo.uid,
-            photosrc: res.photoURL
+            photosrc: res.photoURL,
           };
           commit("setUser", createdUser);
           router.push("/");
@@ -99,31 +100,37 @@ export default new Vuex.Store({
     detectUser({ commit }, user) {
       commit("setUser", user);
     },
-    changeUserName({ commit }, name){
+    changeUserName({ commit }, name) {
       if (name.length >= 3 && name.length < 24) {
-        auth.currentUser.updateProfile({
-          displayName: name
-        }).then(() => {
-          commit("setSuccess", "nameSuccess");
-          commit("setError", null);
-        }).catch((error) => {
-          console.log(error)
-        });
+        auth.currentUser
+          .updateProfile({
+            displayName: name,
+          })
+          .then(() => {
+            commit("setSuccess", "nameSuccess");
+            commit("setError", null);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
         commit("setError", "nameErr");
-        console.log("hola")
+        console.log("hola");
         commit("setSuccess", null);
       }
     },
-    changePassword ({ commit }, newPassword) {
-      auth.currentUser.updatePassword(newPassword).then(function() {
-        commit("setError", null);
-        commit("setSuccess", "passwdSuccess");
-      }).catch(function(error) {
-        console.log(error);
-        commit("setError", error.code);
-      });
-    }
+    changePassword({ commit }, newPassword) {
+      auth.currentUser
+        .updatePassword(newPassword)
+        .then(function () {
+          commit("setError", null);
+          commit("setSuccess", "passwdSuccess");
+        })
+        .catch(function (error) {
+          console.log(error);
+          commit("setError", error.code);
+        });
+    },
   },
   modules: {},
   getters: {
@@ -134,5 +141,5 @@ export default new Vuex.Store({
         return true;
       }
     },
-  }
+  },
 });

@@ -165,22 +165,19 @@ class service {
     });
   }
 
-  addProduct(data){
-    const url = 'https://fakestoreapi.com/products'
-    let payload ={
+  addProduct(data) {
+    const url = "https://fakestoreapi.com/products";
+    let payload = {
       title: data.title,
       price: data.price,
       description: data.description,
       image: data.image,
-      category: data.category
-    }
+      category: data.category,
+    };
 
     console.log("PAYLOAD SERVICIO: ", payload);
 
-
-    return axios
-    .post(`${url}`, payload)
-    
+    return axios.post(`${url}`, payload);
   }
 
   async editProduct(data) {
@@ -192,7 +189,7 @@ class service {
       image: data.image,
       category: data.category,
     };
-  
+
     try {
       const response = await axios.patch(`${url}${data.id}`, payload);
       return response.data;
@@ -200,7 +197,6 @@ class service {
       throw new Error(`Error al editar producto: ${error.message}`);
     }
   }
-  
 
   async deleteProduct(productId) {
     console.log("ProductID SERVICIO:", productId);

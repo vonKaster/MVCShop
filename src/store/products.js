@@ -13,7 +13,7 @@ export default new Vuex.Store({
     allStock: [],
     allSales: [],
     deleteItem: {},
-    new: []
+    new: [],
   },
   getters: {},
   mutations: {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
       state.allStock = data;
     },
     setDeleteItem(state, data) {
-      state.deleteItem = data
+      state.deleteItem = data;
     },
   },
   actions: {
@@ -127,23 +127,22 @@ export default new Vuex.Store({
       return new Promise(async (resolve, reject) => {
         try {
           await state.state.service.addProduct(data);
-          let options = state.state.allProducts
+          let options = state.state.allProducts;
           let newItem = products.fromJson({
             title: data.title,
             price: data.price,
             category: data.category,
             description: data.description,
-            image: data.image
-          })
+            image: data.image,
+          });
           options.unshift(newItem);
-          state.commit('setAllProducts', options)
-          resolve(true)
+          state.commit("setAllProducts", options);
+          resolve(true);
         } catch (error) {
           reject(error);
         }
       });
     },
-
 
     async editProduct(state, data) {
       return new Promise(async (resolve, reject) => {
@@ -172,7 +171,6 @@ export default new Vuex.Store({
         }
       });
     },
-    
 
     async deleteProduct(state, productId) {
       return new Promise(async (resolve, reject) => {
@@ -186,7 +184,7 @@ export default new Vuex.Store({
           });
           console.log("product id", productId);
           console.log("options filtradas", options);
-          state.commit('setAllProducts', options);
+          state.commit("setAllProducts", options);
           resolve(item);
         } catch (error) {
           reject(error);

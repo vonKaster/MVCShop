@@ -131,7 +131,6 @@
                 </v-tooltip>
               </h4>
             </v-card-title>
-            <p class="ms-4 mb-2">Producto #{{ product.id }}</p>
             <p class="ms-4 mb-2" style="overflow-y: scroll; height: 100px">
               {{ product.descripcion }}
             </p>

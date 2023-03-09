@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "../views/HomeView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import LoginView from "../views/LoginView.vue";
 import ProfileView from "../views/ProfileView.vue";
@@ -10,12 +10,12 @@ import ProvidersView from "../views/ProvidersView.vue";
 import TestProductosView from "../views/TestProductosView.vue";
 import { auth } from "../firebase";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: { name: "home" }
+    redirect: { name: "home" },
   },
   {
     path: "/home",
@@ -65,13 +65,13 @@ const routes = [
     component: TestProductosView,
     meta: { background: true },
   },
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
@@ -87,4 +87,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router
+export default router;

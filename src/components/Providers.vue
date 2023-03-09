@@ -25,8 +25,7 @@ export default {
     };
   },
   methods: {},
-  computed: {
-  },
+  computed: {},
   created() {
     document.title = "MVCShop | Proveedores";
     console.log("Component created");

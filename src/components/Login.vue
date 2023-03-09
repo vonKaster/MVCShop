@@ -172,7 +172,8 @@ export default {
     const spacer = document.getElementById("custom-spacer");
     if (style) {
       document.head.removeChild(style);
-    } if (spacer) {
+    }
+    if (spacer) {
       document.head.removeChild(spacer);
     }
     this.setError(null);
