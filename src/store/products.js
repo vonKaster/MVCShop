@@ -131,7 +131,11 @@ export default new Vuex.Store({
       return new Promise(async (resolve, reject) => {
         try {
           console.log("stock store:", newStock);
-          let item = await state.state.service.updateStock(productId, newStock, selectedProvider);
+          let item = await state.state.service.updateStock(
+            productId,
+            newStock,
+            selectedProvider
+          );
           resolve(item);
           await this.dispatch("getStock");
         } catch (error) {

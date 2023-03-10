@@ -23,7 +23,7 @@
               <v-card-subtitle
                 class="d-flex justify-space-between font-weight-bol"
               >
-                {{ provider.description }} 
+                {{ provider.description }}
               </v-card-subtitle>
             </v-card>
           </div>
@@ -60,9 +60,7 @@ export default {
 
   async mounted() {
     try {
-      await Promise.all([
-        products.dispatch("getProviders"),
-      ]);
+      await Promise.all([products.dispatch("getProviders")]);
       this.isLoaded = true;
     } catch (error) {
       console.log(error);
@@ -86,6 +84,6 @@ export default {
 }
 
 .v-card__subtitle {
-  color: #ffffff!important;
+  color: #ffffff !important;
 }
 </style>

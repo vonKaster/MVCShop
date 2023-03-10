@@ -45,7 +45,11 @@
           <v-card class="text-center">
             <v-form
               @submit.prevent="
-                updateStock(productSelected, $v.newStock.$model, selectedProvider);
+                updateStock(
+                  productSelected,
+                  $v.newStock.$model,
+                  selectedProvider
+                );
                 $v.$reset();
               "
             >
@@ -67,7 +71,7 @@
                 ></v-text-field>
                 <p>Cambiar Proveedor</p>
                 <v-select
-                  style="width: 400px;"
+                  style="width: 400px"
                   class="mx-auto"
                   v-model="selectedProvider"
                   :items="getProviders"
@@ -263,7 +267,11 @@ export default {
       await products.dispatch("getStock");
     },
     async updateStock(productId, newStock, selectedProvider) {
-      await products.dispatch("updateStock", { productId, newStock, selectedProvider });
+      await products.dispatch("updateStock", {
+        productId,
+        newStock,
+        selectedProvider,
+      });
       this.changeStockDialog = false;
       this.newStock = null;
       this.productSelected = null;
