@@ -45,7 +45,7 @@
           <v-card class="text-center">
             <v-form
               @submit.prevent="
-                updateStock(productSelected, $v.newStock.$model);
+                updateStock(productSelected, $v.newStock.$model, selectedProvider);
                 $v.$reset();
               "
             >
@@ -65,6 +65,17 @@
                   append-icon="mdi-archive-cog-outline"
                   color="white"
                 ></v-text-field>
+                <p>Cambiar Proveedor</p>
+                <v-select
+                  style="width: 400px;"
+                  class="mx-auto"
+                  v-model="selectedProvider"
+                  :items="getProviders"
+                  item-text="name"
+                  item-value="id"
+                  label="Proveedores"
+                  solo
+                ></v-select>
               </h3>
               <v-card-actions>
                 <v-btn
@@ -72,6 +83,7 @@
                   @click="
                     changeStockDialog = false;
                     productSelected = null;
+                    providerSelected = null;
                     newStock = null;
                     $v.$reset();
                   "
@@ -122,9 +134,11 @@
                     : product.categoria
                 }}
               </p>
-              <div v-for="provider in getProviders" :key="provider.id">
-                <div v-if="provider.id === stock.providerId">
-                  <p class="ms-4">Proveedor: {{ provider.name }}</p>
+              <div>
+                <div v-for="provider in getProviders" :key="provider.id">
+                  <div v-if="provider.id === stock.providerId">
+                    <p class="ms-4">Proveedor: {{ provider.name }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -180,6 +194,7 @@ export default {
       changeStockDialog: false,
       newStock: null,
       productSelected: null,
+      selectedProvider: null,
     };
   },
 
@@ -244,11 +259,12 @@ export default {
       this.productSelected = null;
       await products.dispatch("getStock");
     },
-    async updateStock(productId, newStock) {
-      await products.dispatch("updateStock", { productId, newStock });
+    async updateStock(productId, newStock, selectedProvider) {
+      await products.dispatch("updateStock", { productId, newStock, selectedProvider });
       this.changeStockDialog = false;
       this.newStock = null;
       this.productSelected = null;
+      this.providerSelected = null;
       await products.dispatch("getStock");
     },
   },

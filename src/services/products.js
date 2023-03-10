@@ -174,7 +174,7 @@ class service {
         console.error("Error al obtener los datos: ", error);
       });
   }
-  async updateStock(productId, newStock) {
+  async updateStock(productId, newStock, selectedProvider) {
     const stocks = db.collection("stock");
     const querySnapshot = await stocks.where("id", "==", productId).get();
     console.log("query", querySnapshot);
@@ -185,6 +185,7 @@ class service {
         console.log("docref", docRef);
         console.log("numero con el que se actualizaria:", newStock);
         await docRef.update({ stock: newStock });
+        await docRef.update({ providerId: selectedProvider });
         console.log("Stock actualizado exitosamente.");
       } else {
         console.log(`No se encontró un producto con la id: ${productId}`);

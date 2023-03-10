@@ -30,6 +30,16 @@
             >Ventas</v-list-item
           >
           <v-list-item
+            class="px-5 white--text font-weight-bold"
+            :to="{ name: 'providers' }"
+            >Proveedores</v-list-item
+          >
+          <v-list-item
+            class="px-5 white--text font-weight-bold"
+            :to="{ name: 'test' }"
+            >Test</v-list-item
+          >
+          <v-list-item
             v-if="!userExists"
             class="px-5 white--text font-weight-bold"
             :to="{ name: 'login' }"
@@ -72,7 +82,7 @@
           ><v-icon class="mr-1">mdi-text-box-search</v-icon>Ventas</v-btn
         >
         <v-btn color="black" v-if="userExists" :to="{ name: 'providers' }"
-          ><v-icon class="mr-1">mdi-truck-check</v-icon>Proovedores</v-btn
+          ><v-icon class="mr-1">mdi-truck-check</v-icon>Proveedores</v-btn
         >
         <v-btn color="black" v-if="userExists" :to="{ name: 'test' }"
           ><v-icon class="mr-1">mdi-api</v-icon>Test</v-btn
