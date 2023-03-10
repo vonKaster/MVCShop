@@ -117,7 +117,7 @@
             v-for="product in getAllProducts"
             :key="product.id"
           >
-            <v-img class="productImage" :src="product.imagen" />
+            <v-img class="productImage mt-2" :src="product.imagen" contain max-height="290px"/>
             <v-card-title>
               <h4 class="text-center">
                 <v-tooltip bottom>
