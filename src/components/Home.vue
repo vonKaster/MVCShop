@@ -245,6 +245,9 @@ export default {
       this.productSelected = productId;
     },
     openChangeStockDialog(productId) {
+      const stock = this.getStock.find((s) => s.id === productId);
+      this.newStock = stock.stock;
+      this.selectedProvider = stock.providerId;
       this.changeStockDialog = true;
       this.productSelected = productId;
     },
@@ -265,7 +268,6 @@ export default {
       this.newStock = null;
       this.productSelected = null;
       this.providerSelected = null;
-      await products.dispatch("getStock");
     },
   },
   validations: {

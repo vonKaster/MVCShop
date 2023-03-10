@@ -32,7 +32,7 @@ class service {
               stock: doc.data().stock,
               id: doc.data().id,
               enabled: doc.data().enabled,
-              providerId: doc.data().providerId
+              providerId: doc.data().providerId,
             };
           } else {
             console.log(
@@ -184,11 +184,11 @@ class service {
         const docRef = stocks.doc(doc.id);
         console.log("docref", docRef);
         console.log("numero con el que se actualizaria:", newStock);
-        await docRef.update({ stock: newStock });
-        await docRef.update({ providerId: selectedProvider });
+        console.log("numero provider serv:", selectedProvider);
+        await docRef.update({ stock: newStock, providerId: selectedProvider });
         console.log("Stock actualizado exitosamente.");
       } else {
-        console.log(`No se encontró un producto con la id: ${productId}`);
+        console.log("No se encontró un producto con la id: ${productId}");
       }
     });
   }
