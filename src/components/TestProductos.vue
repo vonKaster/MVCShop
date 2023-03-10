@@ -80,7 +80,7 @@
                 <p>Precio</p>
               </h3>
               <v-text-field
-                type="text"
+                type="number"
                 style="width: 400px"
                 class="mx-auto"
                 dense
