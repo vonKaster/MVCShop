@@ -10,7 +10,22 @@
             </div>
           </div>
           <div v-if="isLoaded">
-            <h1 class="titulo text-overline text-center">Proovedores</h1>
+            <h1 class="titulo text-overline text-center">Proveedores</h1>
+            <v-card
+              style="background-color: #ededed; color: #000000"
+              class="mt-4"
+              v-for="(provider, index) in getProviders"
+              :key="index"
+            >
+              <v-card-title style="color: #e6105b">
+                {{ provider.name }} - N°: {{ provider.id }}
+              </v-card-title>
+              <v-card-subtitle
+                class="d-flex justify-space-between font-weight-bol"
+              >
+                {{ provider.description }} 
+              </v-card-subtitle>
+            </v-card>
           </div>
         </v-col>
       </v-row>
@@ -30,7 +45,12 @@ export default {
     };
   },
   methods: {},
-  computed: {},
+  computed: {
+    getProviders() {
+      console.log("getProviders called");
+      return products.state.allProviders;
+    },
+  },
   created() {
     document.title = "MVCShop | Proveedores";
     console.log("Component created");
@@ -41,8 +61,7 @@ export default {
   async mounted() {
     try {
       await Promise.all([
-        products.dispatch("getCategories"),
-        products.dispatch("getProducts"),
+        products.dispatch("getProviders"),
       ]);
       this.isLoaded = true;
     } catch (error) {
@@ -64,5 +83,9 @@ export default {
 
 .titulo {
   font-size: 24px !important;
+}
+
+.v-card__subtitle {
+  color: #ffffff!important;
 }
 </style>
