@@ -32,6 +32,33 @@ class service {
               stock: doc.data().stock,
               id: doc.data().id,
               enabled: doc.data().enabled,
+              providerId: doc.data().providerId
+            };
+          } else {
+            console.log(
+              "No hay datos disponibles para el documento con ID:",
+              doc.id
+            );
+          }
+        });
+      })
+      .catch((error) => {
+        console.log("Error al obtener los datos: ", error);
+      });
+  }
+
+  getAllProviders() {
+    const providers = db.collection("providers");
+    return providers
+      .get()
+      .then((querySnapshot) => {
+        return querySnapshot.docs.map((doc) => {
+          if (doc.exists) {
+            return {
+              id: doc.data().id,
+              name: doc.data().name,
+              description: doc.data().description,
+              image: doc.data().image,
             };
           } else {
             console.log(

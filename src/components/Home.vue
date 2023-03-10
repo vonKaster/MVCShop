@@ -105,37 +105,40 @@
             </h4>
           </v-card-title>
           <div v-for="stock in getStock" :key="stock.id">
-            <p class="ms-4 mb-0" v-if="stock.id === product.id">
-              Producto #{{ product.id }}
-            </p>
-            <p class="ms-4 mb-0" v-if="stock.id === product.id">
-              Stock: {{ stock.stock }}
-            </p>
-            <p class="ms-4" v-if="stock.id === product.id">
-              Categoría:
-              {{
-                product.categoria === "men's clothing"
-                  ? "Ropa de Hombre"
-                  : product.categoria === "jewelery"
-                  ? "Joyería"
-                  : product.categoria === "electronics"
-                  ? "Electrónica"
-                  : product.categoria === "women's clothing"
-                  ? "Ropa de Mujer"
-                  : product.categoria
-              }}
-            </p>
+            <div v-if="stock.id === product.id">
+              <p class="ms-4 mb-0">Producto #{{ product.id }}</p>
+              <p class="ms-4 mb-0">Stock: {{ stock.stock }}</p>
+              <p class="ms-4 mb-0">
+                Categoría:
+                {{
+                  product.categoria === "men's clothing"
+                    ? "Ropa de Hombre"
+                    : product.categoria === "jewelery"
+                    ? "Joyería"
+                    : product.categoria === "electronics"
+                    ? "Electrónica"
+                    : product.categoria === "women's clothing"
+                    ? "Ropa de Mujer"
+                    : product.categoria
+                }}
+              </p>
+              <div v-for="provider in getProviders" :key="provider.id">
+                <div v-if="provider.id === stock.providerId">
+                  <p class="ms-4">Proveedor: {{ provider.name }}</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="text-center d-flex pa-1">
             <v-btn
-              :disabled="!isProductDisabled(product)"
               color="#e6105b"
               text
               class="mx-auto flex-grow-1"
               @click="openChangeStockDialog(product.id)"
-              ><v-icon class="mr-1">mdi-pencil</v-icon>Editar</v-btn
             >
+              <v-icon class="mr-1">mdi-pencil</v-icon>Editar
+            </v-btn>
             <v-btn
               v-if="isLoaded"
               :color="isProductDisabled(product) ? 'success' : 'red'"
@@ -147,9 +150,9 @@
                   : openDisableDialog(product.id)
               "
             >
-              <v-icon class="mr-1">{{
-                isProductDisabled(product) ? "mdi-check" : "mdi-alert"
-              }}</v-icon>
+              <v-icon class="mr-1">
+                {{ isProductDisabled(product) ? "mdi-check" : "mdi-alert" }}
+              </v-icon>
               {{ isProductDisabled(product) ? "Habilitar" : "Deshabilitar" }}
             </v-btn>
           </div>
@@ -190,6 +193,7 @@ export default {
         products.dispatch("getCategories"),
         products.dispatch("getProducts"),
         products.dispatch("getStock"),
+        products.dispatch("getProviders"),
       ]);
       this.isLoaded = true;
     } catch (error) {
@@ -207,6 +211,10 @@ export default {
     getStock() {
       console.log("getStock called");
       return products.state.allStock;
+    },
+    getProviders() {
+      console.log("getProviders called");
+      return products.state.allProviders;
     },
     stockErrors() {
       const errors = [];

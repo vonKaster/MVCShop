@@ -12,6 +12,7 @@ export default new Vuex.Store({
     allCategories: [],
     allStock: [],
     allSales: [],
+    allProviders: [],
     deleteItem: {},
     new: [],
   },
@@ -31,6 +32,9 @@ export default new Vuex.Store({
     },
     setDeleteItem(state, data) {
       state.deleteItem = data;
+    },
+    setAllProviders(state, data) {
+      state.allProviders = data;
     },
   },
   actions: {
@@ -66,6 +70,19 @@ export default new Vuex.Store({
           let item = await state.state.service.getAllStock();
           console.log("store stock:", item);
           state.commit("setAllSales", item);
+          resolve(true);
+        } catch (error) {
+          reject(error);
+        }
+      });
+    },
+
+    async getProviders(state) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          let item = await state.state.service.getAllProviders();
+          console.log("Providers:", item);
+          state.commit("setAllProviders", item);
           resolve(true);
         } catch (error) {
           reject(error);
