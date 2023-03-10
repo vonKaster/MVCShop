@@ -84,6 +84,9 @@ export default {
 }
 
 .v-card__subtitle {
+  color: #000000!important;
+}
+.theme--dark .v-card__subtitle {
   color: #ffffff !important;
 }
 </style>
